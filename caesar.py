@@ -7,10 +7,11 @@ class CaesarCipher:
             if (text[i].isalpha()):
                 temp = text[i].lower()
                 index = self.alphabet.find(temp)
-                if to_encrypt:
-                    res.append(self.alphabet[(index + shift) % 33])
-                else:
-                    res.append(self.alphabet[(index - shift) % 33])
+                oper = 1 if to_encrypt else -1
+                elem = self.alphabet[(index + oper * shift) % 33]
+                if text[i].isupper():
+                    elem = elem.upper()
+                res.append(elem)
             else:
                 res.append(text[i])
         return ''.join(res)
@@ -18,12 +19,12 @@ class CaesarCipher:
 
 cipher_master = CaesarCipher()
 print(cipher_master.process_text(
-    text='Однажды ревьюер принял проект с первого раза, с тех пор я его боюсь',
+    text='Доказательство оставим в качестве упражнения читателю',
     shift=2,
     to_encrypt=True
 ))
 print(cipher_master.process_text(
-    text='Олебэи яфвнэ мроплж сэжи — э пэй рдв злййвкпш лп нвящывнэ',
-    shift=-3,
+    text='Ёрмвйвфжнюуфдр руфвдко д мвщжуфдж хствипжпкб щкфвфжна',
+    shift=2,
     to_encrypt=False
 ))
