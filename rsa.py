@@ -10,14 +10,14 @@ class RSACipher:
             if candidate == 1:
                 return i
 
-    def generate_keys(self):
-        randprime_1 = sympy.randprime(2 ** (20 - 1), 2 ** 20)
-        randprime_2 = sympy.randprime(2 ** (20 - 1), 2 ** 20)
+    def generate_keys(self, rand_len):
+        randprime_1 = sympy.randprime(2 ** (rand_len - 1), 2 ** rand_len)
+        randprime_2 = sympy.randprime(2 ** (rand_len - 1), 2 ** rand_len)
         n = randprime_1 * randprime_2
         euler = (randprime_1 - 1) * (randprime_2 - 1)
         e = RSACipher.open_key(euler)
         d = sympy.mod_inverse(e, euler)
-        
+
         f = open('public.txt', 'w')
         f.write(str(n) + '\n')
         f.write(str(e) + '\n')
@@ -44,10 +44,10 @@ class RSACipher:
 
 
 cipher_master = RSACipher()
-cipher_master.generate_keys()
-message = 1000000
-print(message)
+cipher_master.generate_keys(1024)
+message = 1234567890
+print('Original message: ', message)
 encrypt = cipher_master.encrypt(message)
-print(encrypt)
+print('Encrypted message: ', encrypt)
 decrypt = cipher_master.decrypt(encrypt)
-print(decrypt)
+print('Decrypted message: ', decrypt)
